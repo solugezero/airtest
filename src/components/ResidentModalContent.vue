@@ -6,6 +6,7 @@ import BaseRange from './Base/Range.vue';
 import BaseButton from './Base/Button.vue';
 import { date, number, object, string } from 'yup';
 import { useModalStore } from '@/store/useModalStore';
+import { useFormStore } from '@/store/useFormStore';
 
 interface IResidentModalState {
     name?: string;
@@ -19,6 +20,7 @@ interface IResidentModalState {
 }
 
 const { close } = toRefs(useModalStore());
+const { send } = toRefs(useFormStore());
 
 const schema = object({
     name: string().required(
@@ -76,7 +78,7 @@ const setAreaType = (
 const validate = async () => {
     try {
         const validate = await schema.validate(state.value);
-        // if(validate) после успешной валидации отправляем на бек
+        // if(validate) send.value({dto: validate, formname: 'resident'}) после успешной валидации отправляем на бек
         if (validate) alert('Успешно!'); // временное решение
         close.value();
     } catch (err: any) {
